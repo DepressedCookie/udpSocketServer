@@ -20,11 +20,15 @@ def connectionLoop(sock):
       if addr in clients:
          if 'heartbeat' in data:
             clients[addr]['lastBeat'] = datetime.now()
+            
+         if 'spawn' in data:
+            clients[addr]['spawned'] = 1
       else:
          if 'connect' in data:
             clients[addr] = {}
             clients[addr]['lastBeat'] = datetime.now()
             clients[addr]['color'] = 0
+            clients[addr]['spawned'] = 0
             message = {"cmd": 0,"player":{"id":str(addr)}}
             m = json.dumps(message)
             for c in clients:
@@ -50,6 +54,7 @@ def gameLoop(sock):
          clients[c]['color'] = {"R": random.random(), "G": random.random(), "B": random.random()}
          player['id'] = str(c)
          player['color'] = clients[c]['color']
+         player['spawned'] = clients[c]['spawned']
          GameState['players'].append(player)
       s=json.dumps(GameState)
       print(s)
