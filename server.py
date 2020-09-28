@@ -17,7 +17,7 @@ def connectionLoop(sock):
    while True:
       data, addr = sock.recvfrom(1024)
       data = str(data)
-      allPlayers = {"cmd": 1, "players": []}
+      allPlayers = {"cmd": 3, "players": []}
       if addr in clients:
          if 'heartbeat' in data:
             clients[addr]['lastBeat'] = datetime.now()
