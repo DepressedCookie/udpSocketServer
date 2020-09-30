@@ -30,9 +30,11 @@ def connectionLoop(sock):
             message = {"cmd": 0,"player":{"id":str(addr)}}
             m = json.dumps(message)
             for c in clients:
+               player = {}
+               player['id'] = str(c)
+               allPlayers['players'].append(player)
                sock.sendto(bytes(m,'utf8'), (c[0],c[1]))
-               allPlayers['players'].append(message)
-
+               
             AP = json.dumps(allPlayers)
             sock.sendto(bytes(AP,'utf8'), (addr[0],addr[1]))
 
